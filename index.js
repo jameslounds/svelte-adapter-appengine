@@ -8,7 +8,7 @@ const files = fileURLToPath(new URL('./files', import.meta.url));
 
 /** @type {import('.')} **/
 export default function entrypoint(options = {}) {
-  const {out = 'build', external = []} = options;
+  const {out = 'build', external = [], providedYaml = {}} = options;
 
   return {
     name: 'svelte-adapter-appengine',
@@ -65,11 +65,13 @@ export default function entrypoint(options = {}) {
         script: 'auto',
       }));
 
-      // Load existing app.yaml if it exists
-      let yaml = {};
+      let yaml = providedYaml;
       if (existsSync('app.yaml')) {
         builder.log.minor('Existing app.yaml found');
-        yaml = YAML.parse(readFileSync('app.yaml').toString());
+        yaml = {
+          ...YAML.parse(readFileSync('app.yaml').toString()),
+          ...yaml,
+        };
       }
 
       const serverRoutes = [

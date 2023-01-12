@@ -8,7 +8,7 @@ const files = fileURLToPath(new URL('./files', import.meta.url));
 
 /** @type {import('.')} **/
 export default function entrypoint(options = {}) {
-  const {out = 'build', external = [], providedYaml = {}} = options;
+  const {out = 'build', external = [], yaml: providedYaml = {}} = options;
 
   return {
     name: 'svelte-adapter-appengine',
@@ -72,6 +72,7 @@ export default function entrypoint(options = {}) {
           ...YAML.parse(readFileSync('app.yaml').toString()),
           ...yaml,
         };
+        console.log(yaml)
       }
 
       const serverRoutes = [

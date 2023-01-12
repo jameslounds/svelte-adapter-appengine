@@ -27,6 +27,7 @@ handlers:
   - url: /.*
     secure: always
     script: auto
+service: myservice
 runtime: nodejs16
 entrypoint: node index.js
 default_expiration: 0h
